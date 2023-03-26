@@ -1,6 +1,6 @@
 {
     "name": "@electrovir/cached-promise",
-    "version": "0.0.0",
+    "version": "0.0.1",
     "description": "Cache promises when deeply-checked triggers change.",
     "keywords": [
         "cache",

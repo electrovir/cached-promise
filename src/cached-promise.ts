@@ -1,8 +1,8 @@
 import {JsonCompatibleValue, areJsonEqual} from '@augment-vir/common';
 
-type CreatePromiseCallback<ValueType> = () => Promise<ValueType>;
+export type CreatePromiseCallback<ValueType> = () => Promise<ValueType>;
 
-type GetParams<ValueType> = {
+export type GetCachedPromiseInput<ValueType> = {
     createPromise: CreatePromiseCallback<ValueType>;
     triggers: JsonCompatibleValue;
 };
@@ -12,7 +12,7 @@ export type CachedPromise<ValueType> = {
      * Only updates if the given trigger is different than the previous one. Returns the promise, so
      * it is chainable.
      */
-    get: (inputs: GetParams<ValueType>) => Promise<ValueType>;
+    get: (inputs: GetCachedPromiseInput<ValueType>) => Promise<ValueType>;
 };
 
 export function createCachedPromise<ValueType>(): CachedPromise<ValueType> {
@@ -20,7 +20,7 @@ export function createCachedPromise<ValueType>(): CachedPromise<ValueType> {
     let lastValue: Promise<ValueType> | undefined;
     let lastTriggers: JsonCompatibleValue | undefined;
 
-    function get(inputs: GetParams<ValueType>): Promise<ValueType> {
+    function get(inputs: GetCachedPromiseInput<ValueType>): Promise<ValueType> {
         const shouldCalculate = !hasBeenSet || !areJsonEqual(inputs.triggers, lastTriggers);
         lastTriggers = inputs.triggers;
 
